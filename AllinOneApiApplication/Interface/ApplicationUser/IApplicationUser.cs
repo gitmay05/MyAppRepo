@@ -1,10 +1,11 @@
-﻿using AllinOneApiApplication.ModelClass.UserModel;
-using AllinOneApiApplication.ModelClass.UserModel;
+﻿
+
+using AllinOneApiApplication.Model.UserModel;
 
 namespace AllinOneApiApplication.Interface.ApplicationUser
 {
     public interface IApplicationUser
     {
-        List<ApplicationUser> UserDetails { get; set; }
+        List<user> UserDetails { get; set; }
     }
 }
