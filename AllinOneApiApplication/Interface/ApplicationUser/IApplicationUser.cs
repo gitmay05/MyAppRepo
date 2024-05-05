@@ -6,6 +6,6 @@ namespace AllinOneApiApplication.Interface.ApplicationUser
 {
     public interface IApplicationUser
     {
-        List<user> UserDetails { get; set; }
+        List<user> UserDetails();
     }
 }
