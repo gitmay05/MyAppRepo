@@ -1,5 +1,8 @@
-﻿using AllinOneApiApplication.Model.UserModel;
+﻿using AllinOneApiApplication.CQRS.Commands;
+using AllinOneApiApplication.CQRS.Queries;
+using AllinOneApiApplication.Model.UserModel;
 using AllinOneApiApplication.Repository.User;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,13 +12,42 @@ namespace AllinOneApiApplication.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        private IMediator mediator;
+        public UserController(IMediator mediator)
         {
-            UserReposistory userRepository = new UserReposistory();
-            List<user> categories = userRepository.UserDetails();
+            this.mediator = mediator;
+        }
 
-            return Ok(categories);
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateUserCommand command)
+        {
+            return Ok(await mediator.Send(command));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await mediator.Send(new GetAllUserQuery()));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            return Ok(await mediator.Send(new GetUserByIdQuery { Id = id }));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, UpdateUserCommand command)
+        {
+            command.Id = id;
+            return Ok(await mediator.Send(command));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+      
+            return Ok(await mediator.Send(new DeleteUserByIdCommand { Id = id }));
         }
     }
 }

@@ -19,7 +19,7 @@ namespace AllinOneApiApplication.Repository.User
             objDataFunctions = new DataFunctions();
         }
 
-        public List<user> UserDetails()
+        public  List<user> UserDetails()
         { 
  
             var result = objuserList;
@@ -36,7 +36,7 @@ namespace AllinOneApiApplication.Repository.User
                 };
 
                 _commandText = "[dbo].[USP_yourproc]";
-                objDataSet = (DataSet)objDataFunctions.getQueryResult(_commandText, DataReturnType.DataSet, parms);
+                objDataSet =  (DataSet)objDataFunctions.getQueryResult(_commandText, DataReturnType.DataSet, parms);
                 if (objDataSet.Tables[0].Rows.Count > 0)
                 {
 
@@ -64,6 +64,11 @@ namespace AllinOneApiApplication.Repository.User
             }
             return result;
 
+        }
+
+        public user UserDetailsById(int i)
+        {
+            throw new NotImplementedException();
         }
     }
 }

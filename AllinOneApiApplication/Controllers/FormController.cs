@@ -1,5 +1,6 @@
 ﻿using AllinOneApiApplication.Model.Form;
 using AllinOneApiApplication.Model.UserModel;
+using AllinOneApiApplication.Repository.Form;
 using AllinOneApiApplication.Repository.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,9 @@ namespace AllinOneApiApplication.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            UserReposistory userRepository = new UserReposistory();
+            FormRepository formRepository = new FormRepository();
 
-            List<Form> categories = await userRepository.UserDetails();
+            List<form> categories = formRepository.formDetails();
 
             return Ok(categories);
         }
