@@ -1,0 +1,77 @@
+﻿@* @{
+    string Userstring = Context.Session.GetString("UserInfo");
+    UserModel userInfo = JsonConvert.DeserializeObject<UserModel>(Userstring);
+} *@
+
+@model IEnumerable<AllinOneApiApplication.Model.User.UserModel>
+
+<div class="mainBox">
+    <div class="row">
+        <div class="col-md-12 text-right mb-2">
+            <a asp-action="AddEditUser" class="btn btn-primary">Create New</a>
+            @*<button class="btn btn-primary" id="btnAddNewConfiguration">Add Practice Configuration</button>*@
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle" id="tblUserList">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>User Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>CreatedBy</th>
+                            <th>CreatedDate</th>
+                            <th>Role</th>       
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                               
+                               
+                                @*<td>
+                            @Html.DisplayFor(modelItem => item.Password)
+                            </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RoleName)
+                                </td>
+                              
+
+                                <td>
+                                    <a asp-controller="User" asp-action="AddEditUser" asp-route-Id="@item.UserId" class="btn btn-sm btn-primary rounded-0"><i class="fa-solid fa-pen"></i></a>
+                                    <a asp-controller="User" asp-action="DeleteUser" asp-route-UserId="@item.UserId" class="btn btn-secondary btn-sm"><i class="fa-solid fa-trash-can"></i></a>
+
+                                    @*    <a asp-controller="User" asp-action="DeleteUser" asp-route-UserId="@item.UserId" asp-route-SessionUserId="@userInfo.UserId" class="btn btn-secondary btn-sm"><i class="fa-solid fa-trash-can"></i></a>
+                               *@  
+                           </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

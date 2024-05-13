@@ -1,12 +1,13 @@
-﻿using AllinOneApiApplication.Model.Form;
-using AllinOneApiApplication.Model.UserModel;
+﻿using AllinOneApiApplication.Model;
+using AllinOneApiApplication.Model.Common;
+using AllinOneApiApplication.Model.Form;
 
 namespace AllinOneApiApplication.Interface.Form
 {
     public interface IForm
     {
-        List<form> formDetails();
-        List<form> UserAdd();
-        List<form> UserUpdate();
+        List<FormModel> GetFormDetails(Int64 FormId);
+        Message AddEditFormDetails(FormModel formDetails);
+        Message DeleteFormsDetails(Int64 formID, Int64 userId);
     }
 }

@@ -72,60 +72,67 @@ namespace AllinOneApiApplication.CommonDataAccess
         /// <returns></returns>
         public object getQueryResult(string commandText, DataReturnType returnType, List<SqlParameter> sqlParameters, int ConnectionTimeout = 50)
         {
+            SqlCommand objSqlCommand = null;
             try
             {
-                objClsCommand = new Command();
-                objdataSet = new DataSet();
-                objSqlCommand = objClsCommand.getCommand;
-                objSqlCommand.CommandText = commandText;
-                objSqlCommand.CommandTimeout = ConnectionTimeout;
-                objSqlCommand.CommandType = CommandType.StoredProcedure;
-                if (sqlParameters != null)
+                string connectionString = "Data Source=PRINCE;Initial Catalog=AllInOne;User ID=sa;Password=1234;";
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    if (sqlParameters.Count != 0)
+                    objSqlCommand = new SqlCommand(commandText, connection);
+                    objSqlCommand.CommandTimeout = ConnectionTimeout;
+                    objSqlCommand.CommandType = CommandType.StoredProcedure;
+
+                    if (sqlParameters != null && sqlParameters.Count > 0)
                     {
                         objSqlCommand.Parameters.AddRange(sqlParameters.ToArray());
                     }
-                }
-                if (returnType == DataReturnType.none)
-                {
-                    objSqlCommand.Connection.Open();
-                    objSqlCommand.ExecuteNonQuery();
-                }
-                else
-                {
-                    objSqlDataAdapter = new SqlDataAdapter(objSqlCommand);
-                    objSqlDataAdapter.Fill(objdataSet);
 
-                    if (returnType == DataReturnType.DataSet)
+                    if (returnType == DataReturnType.none)
                     {
-                        returnValue = objdataSet;
+                        connection.Open();
+                        objSqlCommand.ExecuteNonQuery();
+                        return null; // Since returnType is none, no return value
                     }
-                    else if (returnType == DataReturnType.Table)
+                    else
                     {
-                        returnValue = objdataSet.Tables[0];
-                    }
-                    else if (returnType == DataReturnType.DataRow)
-                    {
-                        returnValue = objdataSet.Tables[0].Rows[0];
+                        using (DataSet objdataSet = new DataSet())
+                        {
+                            using (SqlDataAdapter objSqlDataAdapter = new SqlDataAdapter(objSqlCommand))
+                            {
+                                objSqlDataAdapter.Fill(objdataSet);
 
+                                if (returnType == DataReturnType.DataSet)
+                                {
+                                    return objdataSet;
+                                }
+                                else if (returnType == DataReturnType.Table)
+                                {
+                                    return objdataSet.Tables[0];
+                                }
+                                else if (returnType == DataReturnType.DataRow)
+                                {
+                                    return objdataSet.Tables[0].Rows[0];
+                                }
+                                else if (returnType == DataReturnType.Value)
+                                {
+                                    return objdataSet.Tables[0].Rows[0][0];
+                                }
+                            }
+                        }
                     }
-                    else if (returnType == DataReturnType.Value)
-                    {
-                        returnValue = objdataSet.Tables[0].Rows[0][0];
-                    }
-
                 }
-                return returnValue;
-            }           
+            }
             finally
             {
-                if (objSqlCommand.Connection.State != ConnectionState.Closed)
+                if (objSqlCommand != null && objSqlCommand.Connection != null && objSqlCommand.Connection.State != ConnectionState.Closed)
                 {
                     objSqlCommand.Connection.Close();
                 }
             }
+            return objdataSet;
         }
+
         /// <summary>
         /// Execute sql Procedure with single sql parameter.
         /// </summary>
@@ -136,44 +143,49 @@ namespace AllinOneApiApplication.CommonDataAccess
         {
             try
             {
-                objClsCommand = new Command();
-                objdataSet = new DataSet();
-                objSqlCommand = objClsCommand.getCommand;
-                objSqlCommand.CommandText = commandText;
-                objSqlCommand.CommandTimeout = ConnectionTimeout;
-                objSqlCommand.CommandType = CommandType.StoredProcedure;
-                if (sqlParameter != null)
-                {
-                    objSqlCommand.Parameters.Add(sqlParameter);
-                }
-                if (returnType == DataReturnType.none)
-                {
-                    objSqlCommand.Connection.Open();
-                    objSqlCommand.ExecuteNonQuery();
-                }
-                else
-                {
-                    objSqlDataAdapter = new SqlDataAdapter(objSqlCommand);
-                    objSqlDataAdapter.Fill(objdataSet);
+                string connectionString = "Data Source=PRINCE;Initial Catalog=AllInOne;User ID=sa;Password=1234;";
 
-                    if (returnType == DataReturnType.DataSet)
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    objClsCommand = new Command();
+                    objdataSet = new DataSet();
+                    objSqlCommand = objClsCommand.getCommand;
+                    objSqlCommand.CommandText = commandText;
+                    objSqlCommand.CommandTimeout = ConnectionTimeout;
+                    objSqlCommand.CommandType = CommandType.StoredProcedure;
+                    if (sqlParameter != null)
                     {
-                        returnValue = objdataSet;
+                        objSqlCommand.Parameters.Add(sqlParameter);
                     }
-                    else if (returnType == DataReturnType.Table)
+                    if (returnType == DataReturnType.none)
                     {
-                        returnValue = objdataSet.Tables[0];
+                        objSqlCommand.Connection.Open();
+                        objSqlCommand.ExecuteNonQuery();
                     }
-                    else if (returnType == DataReturnType.DataRow)
+                    else
                     {
-                        returnValue = objdataSet.Tables[0].Rows[0];
+                        objSqlDataAdapter = new SqlDataAdapter(objSqlCommand);
+                        objSqlDataAdapter.Fill(objdataSet);
+
+                        if (returnType == DataReturnType.DataSet)
+                        {
+                            returnValue = objdataSet;
+                        }
+                        else if (returnType == DataReturnType.Table)
+                        {
+                            returnValue = objdataSet.Tables[0];
+                        }
+                        else if (returnType == DataReturnType.DataRow)
+                        {
+                            returnValue = objdataSet.Tables[0].Rows[0];
+
+                        }
+                        else if (returnType == DataReturnType.Value)
+                        {
+                            returnValue = objdataSet.Tables[0].Rows[0][0];
+                        }
 
                     }
-                    else if (returnType == DataReturnType.Value)
-                    {
-                        returnValue = objdataSet.Tables[0].Rows[0][0];
-                    }
-
                 }
                 return returnValue;
             }

@@ -1,0 +1,89 @@
+﻿@model AllinOneApiApplication.Model.Form.FormModel
+@{
+    ViewData["Title"] = "Index";
+    ViewBag.PageName = "Form";
+    Layout = "_Layout";
+}
+<style>
+    .pagination {
+        margin-bottom: 10px !important;
+    }
+
+    ul.pagination li.active {
+        background-color: #0096C7 !important;
+        color: white;
+        border-radius: 5px;
+    }
+
+    ul.pagination li {
+        display: inline;
+    }
+
+        ul.pagination li a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+            ul.pagination li a.active {
+                background-color: #0096C7;
+                color: white;
+                border-radius: 5px;
+            }
+
+            ul.pagination li a:hover:not(.active) {
+                background-color: #ddd;
+            }
+</style>
+
+@if (ViewBag.Message != null)
+{
+    if (ViewBag.Message.MsgId > 0)
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewBag.Message.Msg
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.Message.Msg
+        </div>
+    }
+}
+
+
+<div id="GridDiv">
+
+</div>
+
+@section Scripts{
+    <link rel="stylesheet" href=" https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+   
+
+<script type="text/javascript">
+        $(function () {
+
+
+                $.ajax({
+                    type: "GET",
+                     url: "@Url.Action("GetFormDetails", "Form")",
+                   // data: { "customerId": customerId },
+                    success: function (data) {
+                        $("#GridDiv").html(data);
+                    },
+                    failure: function (response) {
+                       alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+
+
+        });
+</script>
+}

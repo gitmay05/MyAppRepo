@@ -1,8 +1,6 @@
-﻿using AllinOneApiApplication.Model.Form;
-using AllinOneApiApplication.Model.UserModel;
+﻿
+using AllinOneApiApplication.Model.Form;
 using AllinOneApiApplication.Repository.Form;
-using AllinOneApiApplication.Repository.User;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AllinOneApiApplication.Controllers
@@ -11,14 +9,14 @@ namespace AllinOneApiApplication.Controllers
     [ApiController]
     public class FormController : ControllerBase
     {
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            FormRepository formRepository = new FormRepository();
+        //[HttpGet]
+        //public async Task<IActionResult> GetFormDetails()
+        //{
+        //    FormRepository formRepository = new FormRepository();
 
-            List<form> categories = formRepository.formDetails();
+        //    List<FormModel> _List = formRepository.GetFormDetails(0);
 
-            return Ok(categories);
-        }
+        //    return Ok(_List);
+        //}
     }
 }

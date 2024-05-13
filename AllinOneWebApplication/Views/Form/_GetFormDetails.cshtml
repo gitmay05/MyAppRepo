@@ -1,0 +1,70 @@
+﻿@model IEnumerable<AllinOneApiApplication.Model.Form.FormModel>
+
+<div class="mainBox">
+    <div class="row">
+        <div class="col-md-12 text-right mb-2">
+            <a asp-action="AddEditForm" class="btn btn-primary">Create New</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped table-hover align-middle" id="FormList">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th> Form Name</th>
+                        <th> Controller Name</th>
+                        <th>Action Name</th>
+                        <th>Class Name</th>
+                        @*<th>Area </th>
+                        <th> Parent Name</th>*@
+                        <th>Status</th>
+                        <th>CreatedBy</th>
+                        <th>CreatedDate</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.FormName)</td>
+                                <td> @Html.DisplayFor(modelItem => item.ControllerName)</td>
+                                <td> @Html.DisplayFor(modelItem => item.ActionName) </td>
+                                <td>@Html.DisplayFor(modelItem => item.ClassName)</td>
+                                @*<td> @Html.DisplayFor(modelItem => item.Area) </td>
+                        <td> @Html.DisplayFor(modelItem => item.ParentForm)</td>*@
+                                <td> @Html.DisplayFor(modelItem => item.Status)</td>
+                                <td> @Html.DisplayFor(modelItem => item.UserName)</td>
+                                <td> @Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                                <td>
+                                    <a asp-controller="Form" asp-action="AddEditForm" asp-route-Id="@item.PK_FormId" class="btn btn-sm btn-primary rounded-0"><i class="fa-solid fa-pen"></i></a>
+                                    <a asp-controller="Form" asp-action="DeleteForm" asp-route-FormId="@item.PK_FormId" asp-route-SessionUserId="1" class="btn btn-secondary btn-sm"><i class="fa-solid fa-trash-can"></i></a>
+
+                                    @*   <a asp-controller="Form" asp-action="DeleteForm" asp-route-FormId="@item.PK_FormId" asp-route-SessionUserId="@userInfo.UserId" class="btn btn-secondary btn-sm"><i class="fa-solid fa-trash-can"></i></a>
+                                *@ 
+                            </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+
+                        <tr><td>No Data Found.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //  $('#FormList').DataTable();
+    });
+
+</script>
