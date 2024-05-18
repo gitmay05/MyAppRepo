@@ -1,0 +1,190 @@
+﻿ @model AllinOneApiApplication.Model.Role.RoleModel
+@{
+    ViewData["Title"] = "AddEditRole";
+    ViewBag.PageName = "Role";
+
+}
+@*
+@{
+    string Userstring = Context.Session.GetString("UserInfo");
+    UserModel userInfo = JsonConvert.DeserializeObject<UserModel>(Userstring);
+}
+ *@
+<h1>Add/Edit Role</h1>
+
+<hr />
+<form asp-controller="Role" asp-action="AddEditRole" method="post">
+<div class="row">
+    <div class="col-md-4">
+
+            @* <input type="hidden" asp-for="CreatedBy" value="@userInfo.UserId" class="form-control" /> *@
+
+           
+             <div class="form-group">
+                <label class="control-label">Role Name</label>
+                <input asp-for="RoleName" class="form-control" placeholder="Role Name" />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Parent</label>
+                <select asp-for="FK_HomePageFormId" asp-items="@(new SelectList(@ViewBag.FormList,"PK_FormId","FormName"))" class="form-control">
+                    @* <option value="0">--Select--</option> *@
+                </select>
+            </div>
+            <div id="divFormRoleMapping">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="display:none;"></th>
+                            <th style="display:none;"></th>
+                            <th>Form Name</th>
+                            <th>Can All</th>
+                            <th>Can Add</th>
+                            <th>Can Edit</th>
+                            <th>Can View</th>
+                            <th>Can Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.Item.Count; i++)
+                        {
+                            <tr>
+                                <td style="display:none;">@Html.HiddenFor(model => model.Item[i].PK_FormId)</td>
+                                <td style="display:none;">@Html.HiddenFor(model => model.Item[i].FK_ParentId)</td>
+                                <td>@Html.DisplayFor(model => model.Item[i].FormName)</td>
+                                <td>@Html.CheckBoxFor(model => model.Item[i].CanAll,new { @class = "chbAll" })</td>
+                                <td>@Html.CheckBoxFor(model => model.Item[i].CanEdit, new { @class = "chbADD"})</td>
+                                <td>@Html.CheckBoxFor(model => model.Item[i].CanView, new { @class = "chbEDIT"})</td>
+                                <td>@Html.CheckBoxFor(model => model.Item[i].CanAdd, new { @class = "chbView"})</td>
+                                <td>@Html.CheckBoxFor(model => model.Item[i].CanDelete, new { @class = "chbDELETE"})</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="form-group">
+                <label class="control-label">Status</label>
+                <select asp-for="Status" class="form-control" asp-items="new SelectList(ViewBag.Status)"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Submit" id="btnsubmit" class="btn btn-primary">
+                    <input type="submit" value="cancel" class="btn btn-primary" formaction="/Role">
+                </div>
+            </div>
+    </div>
+</div>
+</form>
+@section Scripts{
+    @*   <link rel="stylesheet" href=" https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+ *@
+
+    <script type="text/javascript">
+        $(function (e) {
+            // if ($('#PK_RoleId').val() > 0) 
+            // {
+           
+            // }
+
+            $('.chbAll').click(function (event) {
+                var checkboxes = $(this).closest('tr').find(':checkbox');
+                //If the checkbox is checked
+                if ($(this).is(":checked")) {
+                    checkboxes.prop('checked', true)
+                    //Add class on checkbox checked
+                } else {
+                    //Remove class on checkbox uncheck
+                    checkboxes.prop('checked', false)
+                }
+            });
+
+            $('.chbADD').click(function (event) {
+                var checkboxes = $(this).closest('tr').find(':checkbox');
+                //If the checkbox is checked
+                if ($(this).is(":checked")) {
+                    if ($(this).closest('tr').find(':checkbox.chbEDIT').is(":checked")) {
+                        if ($(this).closest('tr').find(':checkbox.chbDELETE').is(":checked")) {
+                            if ($(this).closest('tr').find(':checkbox.chbView').is(":checked")) {
+                                $(this).closest('tr').find(':checkbox.chbAll').prop('checked', true)
+                            }
+                        }
+                    }
+                } else {
+                    //checkboxes.prop('checked', false)
+                    $(this).closest('tr').find(':checkbox.chbAll').prop('checked', false)
+                }
+            });
+
+            $('.chbEDIT').click(function (event) {
+
+                var checkboxes = $(this).closest('tr').find(':checkbox');
+                //If the checkbox is checked
+                if ($(this).is(":checked")) {
+                    if ($(this).closest('tr').find(':checkbox.chbADD').is(":checked")) {
+                        if ($(this).closest('tr').find(':checkbox.chbDELETE').is(":checked")) {
+                            if ($(this).closest('tr').find(':checkbox.chbView').is(":checked")) {
+                                $(this).closest('tr').find(':checkbox.chbAll').prop('checked', true)
+                            }
+                        }
+                    }
+                } else {
+                    //checkboxes.prop('checked', false)
+                    $(this).closest('tr').find(':checkbox.chbAll').prop('checked', false)
+                }
+            });
+
+            $('.chbDELETE').click(function (event) {
+
+                var checkboxes = $(this).closest('tr').find(':checkbox');
+                //If the checkbox is checked
+                if ($(this).is(":checked")) {
+                    if ($(this).closest('tr').find(':checkbox.chbADD').is(":checked")) {
+                        if ($(this).closest('tr').find(':checkbox.chbEDIT').is(":checked")) {
+                            if ($(this).closest('tr').find(':checkbox.chbView').is(":checked")) {
+                                $(this).closest('tr').find(':checkbox.chbAll').prop('checked', true)
+                            }
+                        }
+                    }
+                } else {
+                    //checkboxes.prop('checked', false)
+                    $(this).closest('tr').find(':checkbox.chbAll').prop('checked', false)
+                }
+            });
+
+            $('.chbView').click(function (event) {
+
+                var checkboxes = $(this).closest('tr').find(':checkbox');
+                //If the checkbox is checked
+                if ($(this).is(":checked")) {
+                    if ($(this).closest('tr').find(':checkbox.chbADD').is(":checked")) {
+                        if ($(this).closest('tr').find(':checkbox.chbEDIT').is(":checked")) {
+                            if ($(this).closest('tr').find(':checkbox.chbDELETE').is(":checked")) {
+                                $(this).closest('tr').find(':checkbox.chbAll').prop('checked', true)
+                            }
+                        }
+                    }
+                } else {
+                    //checkboxes.prop('checked', false)
+                    $(this).closest('tr').find(':checkbox.chbAll').prop('checked', false)
+                }
+            });
+
+            $('#btnsubmit').click(function (e) {
+
+                if ($('#FK_HomePageFormId').val() == 0 || $('#FK_HomePageFormId').val() == "0" || $('#FK_HomePageFormId').val() == null) {
+                    alert('Please Select Home Page');
+                    return false;
+                }
+                if ($('#RoleName').val() == "" || $('#RoleName').val() == null) {
+                    alert('Please Enter Role Name');
+                    return false;
+                }
+
+            });
+                 
+
+        });
+
+        
+    </script>
+}
+

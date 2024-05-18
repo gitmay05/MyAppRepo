@@ -1,7 +1,7 @@
-﻿@model AllinOneApiApplication.Model.Form.FormModel
+﻿@model AllinOneApiApplication.Model.Role.RoleModel
 @{
     ViewData["Title"] = "Index";
-    ViewBag.PageName = "Form";
+    ViewBag.PageName = "Role";
 }
 <style>
     .pagination {
@@ -55,34 +55,33 @@
 
 
 <div id="GridDiv">
-
 </div>
 
 @section Scripts{
     <link rel="stylesheet" href=" https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-   
 
-<script type="text/javascript">
+
+    <script type="text/javascript">
         $(function () {
 
 
-                $.ajax({
-                    type: "GET",
-                     url: "@Url.Action("GetFormDetails", "Form")",
-                   // data: { "customerId": customerId },
-                    success: function (data) {
-                        $("#GridDiv").html(data);
-                    },
-                    failure: function (response) {
-                       alert(response.responseText);
-                    },
-                    error: function (response) {
-                        alert(response.responseText);
-                    }
-                });
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetRoleDetails", "Role")",
+                // data: { "customerId": customerId },
+                success: function (data) {
+                    $("#GridDiv").html(data);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
 
 
         });
-</script>
+    </script>
 }

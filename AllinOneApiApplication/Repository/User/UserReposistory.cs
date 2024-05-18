@@ -22,6 +22,53 @@ namespace AllinOneApiApplication.Repository.User
             objDataFunctions = new DataFunctions();
         }
 
+        public List<Dropdown> GetRoleForUser(Int64 SessionAccountId)
+        {
+            List<Dropdown> _List = new List<Dropdown>();
+            var result = _List;
+           
+
+            System.Data.DataSet? objDataSet = null;
+            try
+            {
+                List<SqlParameter> parms = new List<SqlParameter>()
+                {
+
+                    new SqlParameter("@iAccountId",SessionAccountId),
+
+                };
+
+                _commandText = "[dbo].[USP_GetRoleForUser]";
+                objDataSet = (DataSet)objDataFunctions.getQueryResult(_commandText, DataReturnType.DataSet, parms);
+                if (objDataSet.Tables[0].Rows.Count > 0)
+                {
+
+                    if (objDataSet.Tables[0].Rows[0].Field<int>("Message_Id") == 1)
+                    {
+                        _List = objDataSet.Tables[1].AsEnumerable().Select(dr => new Dropdown()
+                        {
+                            Id = dr.Field<Int64>("PK_RoleId"),
+                            Value = dr.Field<string>("RoleName")
+                        }).ToList();
+                        objDataSet.Dispose();
+                        result = _List;
+                    }
+                    else
+                    {
+                        result = _List;
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                result = _List;
+            }
+            return result;
+
+        }
+
+
         public List<UserModel> GetUserDetails(Int64 UserId)
         {
 

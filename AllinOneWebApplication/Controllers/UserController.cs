@@ -60,8 +60,10 @@ namespace AllinOneWebApplication.Controllers
 
 
             List<Dropdown> _RoleDropdownList = new List<Dropdown>();
-            _RoleDropdownList.Add(new Dropdown { Id = 1, Value = "Admin" });
-            _RoleDropdownList.Add(new Dropdown { Id = 2, Value = "User" });
+            Int64 SessionAccountId = 1;
+            _RoleDropdownList= _User.GetRoleForUser(SessionAccountId);
+            //_RoleDropdownList.Add(new Dropdown { Id = 1, Value = "Admin" });
+            //_RoleDropdownList.Add(new Dropdown { Id = 2, Value = "User" });
             ViewBag.RoleList = _RoleDropdownList;
 
             if (Id > 0)
@@ -83,14 +85,7 @@ namespace AllinOneWebApplication.Controllers
         [HttpPost]
         public IActionResult AddEditUser(UserModel objUserModel)
         {
-            //if (objUserModel.FK_RoleId == 0)
-            //{
-            //    ModelState.AddModelError("FK_RoleId", "Please Select Role");
-            //}
-            //if (objUserModel.FK_AccountId == 0)
-            //{
-            //    ModelState.AddModelError("FK_PracticeId", "Please Select Account");
-            //}
+            
             if (!ModelState.IsValid)
             {
                 ViewBag.Status = new List<string>() { "Active", "InActive" };

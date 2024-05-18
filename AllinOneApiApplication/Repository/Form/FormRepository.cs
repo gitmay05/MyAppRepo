@@ -142,7 +142,7 @@ namespace AllinOneApiApplication.Repository.Form
             catch (Exception ex)
             {
                 var objBase = System.Reflection.MethodBase.GetCurrentMethod();
-                // ErrorLogDAL.SetError("VFLEET", objBase.DeclaringType.Assembly.GetName().Name, objBase.DeclaringType.FullName, "", objBase.Name, ex.Message, "ADDITIONAL REMARKS");
+                // ErrorLogDAL.SetError("AllInOne", objBase.DeclaringType.Assembly.GetName().Name, objBase.DeclaringType.FullName, "", objBase.Name, ex.Message, "ADDITIONAL REMARKS");
             }
 
             return objMessages;
