@@ -20,6 +20,7 @@ namespace AllinOneApiApplication.Model.Role
 		public string? CreatedDate { get; set; }	
 		public string? Status { get; set; }
 		public Int64 SessionAccountId { get; set; }
+        public Int64 SessionUserId { get; set; }
 
         public List<RoleRightsMappingModel> Item { get; set; }
 

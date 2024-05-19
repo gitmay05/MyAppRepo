@@ -92,7 +92,7 @@ namespace AllinOneApiApplication.Repository.Form
                     new SqlParameter("@cClassName", formDetails.ClassName==null?"":formDetails.ClassName.Trim()),
                     new SqlParameter("@cArea",formDetails.Area==null?"":formDetails.Area.Trim()),
                     new SqlParameter("@bIsActive",formDetails.IsActive),
-                    new SqlParameter("@iUserId",formDetails.CreatedBy),
+                    new SqlParameter("@iUserId",formDetails.SessionUserId),
 
                 };
                 CheckParameters.ConvertNullToDBNull(parms);
@@ -122,8 +122,8 @@ namespace AllinOneApiApplication.Repository.Form
             {
                 List<SqlParameter> parms = new List<SqlParameter>()
                 {
-                    new SqlParameter("@iPK_FormId",formID),
-                    new SqlParameter ("@iUserId",userId),
+                    new SqlParameter("@iFormId",formID),
+                    new SqlParameter ("@iSessionUserId",userId),
 
                 };
                 CheckParameters.ConvertNullToDBNull(parms);
@@ -148,52 +148,6 @@ namespace AllinOneApiApplication.Repository.Form
             return objMessages;
         }
 
-        //public IEnumerable<Dropdown> GetParentForms(Int64 FormId)
-        //{
-        //    List<Dropdown> _List = new List<Dropdown>();
-        //    var result = _List;
-
-
-        //    System.Data.DataSet objDataSet = null;
-        //    try
-        //    {
-        //        List<SqlParameter> parms = new List<SqlParameter>()
-        //        {
-
-        //            new SqlParameter("@id","1"),
-
-        //        };
-
-        //        _commandText = "[dbo].[USP_GetFormDetails]";
-        //        objDataSet = (DataSet)objDataFunctions.getQueryResult(_commandText, DataReturnType.DataSet, parms);
-        //        if (objDataSet.Tables[0].Rows.Count > 0)
-        //        {
-
-        //            if (objDataSet.Tables[0].Rows[0].Field<int>("Message_Id") == 1)
-        //            {
-        //                _List = objDataSet.Tables[1].AsEnumerable().Select(dr => new Dropdown()
-        //                {
-
-        //                    Id = dr.Field<Int64>("Id"),
-        //                    Value = dr.Field<string>("Value")
-        //                }).ToList();
-        //                objDataSet.Dispose();
-        //                result = _List;
-        //            }
-        //            else
-        //            {
-        //                result = null;
-        //            }
-        //        }
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        result = null;
-        //    }
-        //    return result;
-        //}
-
-
+      
     }
 }

@@ -166,7 +166,7 @@ namespace AllinOneApiApplication.Repository.User
         public Message DeleteUserDetails(Int64 UserId, Int64 SessionuserId)
         {
             Message objMessages = new Message();
-            _commandText = "[dbo].[USP_DeleteForm]";
+            _commandText = "[dbo].[USP_DeleteUser]";
             try
             {
                 List<SqlParameter> parms = new List<SqlParameter>()

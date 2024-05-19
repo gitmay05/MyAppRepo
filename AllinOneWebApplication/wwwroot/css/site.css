@@ -16,3 +16,10 @@ html {
 body {
   margin-bottom: 60px;
 }
+.mainWrap-section {
+    background-image: url('img/BusLoginbg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 100px 0; /* Adjust padding as needed */
+}

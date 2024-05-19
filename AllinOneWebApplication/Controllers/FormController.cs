@@ -3,13 +3,14 @@ using AllinOneApiApplication.Interface.Form;
 using AllinOneApiApplication.Model;
 using AllinOneApiApplication.Model.Common;
 using AllinOneApiApplication.Model.Form;
+using AllinOneApiApplication.Model.UserModel;
 using AllinOneWebApplication.Common;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.AccessControl;
 
 namespace AllinOneWebApplication.Controllers
 {
-    public class FormController : Controller
+    public class FormController : BaseController
     {
 
         private readonly IForm _Form;
@@ -87,16 +88,16 @@ namespace AllinOneWebApplication.Controllers
             }
             Message objMessageModel = new Message();
             objFormModel.IsActive = objFormModel.Status == "Active" ? true : false;
+            objFormModel.SessionUserId = LoggedInUser.UserId;
             objMessageModel = _Form.AddEditFormDetails(objFormModel);
             ExtentionMethods.PutTemp(TempData, "Message", objMessageModel);
 
             return RedirectToAction("Index", "Form");
 
         }
-        [HttpPost]
-        public IActionResult DeleteForm(Int64 FormId = 0, Int64 UserId = 0)
+        public IActionResult DeleteForm(Int64 FormId = 0)
         {
-
+            Int64 UserId=LoggedInUser.UserId;
             Message objMessage = new Message();
             objMessage = _Form.DeleteFormsDetails(FormId, UserId);
             ExtentionMethods.PutTemp(TempData, "Message", objMessage);

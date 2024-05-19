@@ -1,0 +1,196 @@
+﻿@model AllinOneApiApplication.Model.Login.LoginModel
+
+@{
+    Layout = null;
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+    <!-- Custom CSS -->
+    <link href="~/css/common.css" rel="stylesheet" />
+    <link href="~/css/Main.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css' />
+    <!-- Custom Styles -->
+    <link href="~/css/stylesheet.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <!-- Custom Script -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+</head>
+<body class="bg-light">
+
+    <section class="mainWrap-section" id="loginForm">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                        <div class="card-header"><h3 class="text-center font-weight-light my-4">User Login</h3></div>
+                        <div class="card-body">
+                            <form method="post" class="signin-form" id="loginvalidate">
+                                <div class="form-floating mb-3">
+                                    <input type="text" asp-for="UserName" class="form-control" id="email" placeholder="name@example.com" />
+                                    <label for="email">User Name</label>
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input asp-for="Password" type="password" class="form-control" id="password" placeholder="Password" />
+                                    <label for="password">Password</label>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                    <button type="submit" class="btn btn-primary">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="ForgotPwdModal" tabindex="-1" role="dialog" aria-labelledby="ForgotPwdModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ForgotPwdModalLabel">Forgot Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Forgot your password? No worries, you can reset it easily.</p>
+                    <div class="form-group">
+                        <label for="forgotEmail">Email</label>
+                        <input type="email" class="form-control" id="forgotEmail" placeholder="name@example.com">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery Validate -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js'></script>
+</body>
+</html>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+
+<script type="text/javascript">
+    var CanPopupclose = true;
+    $(function () {
+        $('#ForgotPwdModal').modal({
+            show: true,
+            keyboard: false,
+            backdrop: 'static'
+        });
+    });
+    var x = document.getElementById("Password");
+    $(".toggle-password").click(function (e) {
+        e.preventDefault();
+
+        if (x.type === "password") {
+            x.type = "text";
+            $(".toggle-password").html('<i class="fa fa-eye-slash" aria-hidden="true"></i>');
+        } else {
+            x.type = "password";
+            $(".toggle-password").html('<i class="fa fa-eye" aria-hidden="true"></i>');
+        }
+
+
+    });
+
+    function OpenModelPopUp() {
+        // alert('s');
+        $('#ForgotPwdModal').modal('show');
+    }
+
+    function CloseModelPopUp() {
+        if (CanPopupclose == true) {
+            $('#ForgotEmail').val('');
+            $('#Span_EmailError').text('');
+            $('#ForgotPwdModal').modal('hide');
+            $(".modalBgLoader, .modalLoaderCenter").hide();
+        }
+        else
+        {
+            $('#ForgotEmail').val('');
+            $('#Span_EmailError').text('');
+            $('#ForgotPwdModal').modal('hide');
+            $(".modalBgLoader, .modalLoaderCenter").hide();
+        }
+       
+    }
+
+    function SubmitModelPopup() {
+
+        var inputvalues = $('#ForgotEmail').val();
+        var regex = /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if (!regex.test(inputvalues)) {
+            alert('Invalid Email !');
+            return regex.test(inputvalues);
+        }
+        else
+        {
+            CanPopupclose = false;
+             $.ajax({
+            type: "POST",
+                 url: "@Url.Action("ForgotPassword", "Login")",
+                 data: { Email: $('#ForgotEmail').val() },
+                 beforeSend: function () {
+                     $(".modalBgLoader, .modalLoaderCenter").show();
+                 },
+                 complete: function () {
+
+                    $(".modalBgLoader, .modalLoaderCenter").hide();
+                 },
+                 success: function (Msg) {
+                     CanPopupclose = true;
+                     if (Msg == "SUCCESS") {
+                         alert('please check your Email To Reset Password! ');
+                         CloseModelPopUp();
+                     }
+                     else
+                     {
+                         alert(Msg);
+                     }
+
+            },
+                 error: function (req, status, error) {
+                     CanPopupclose = true;
+               // console.log(msg);
+                alert(Msg);
+            }
+        });
+
+
+        }
+
+
+    }
+
+
+</script>

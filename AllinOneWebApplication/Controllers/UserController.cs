@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AllinOneWebApplication.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private readonly IApplicationUser _User;
         public UserController(IApplicationUser User)
@@ -106,7 +106,10 @@ namespace AllinOneWebApplication.Controllers
             }
             Message objMessageModel = new Message();
             objUserModel.IsActive = objUserModel.Status == "Active" ? true : false;
-          //  objUserModel.Password = objUserModel.Password.Encrypt();// Encript Password
+
+            objUserModel.SessionUserId = LoggedInUser.UserId;
+            objUserModel.FK_AccountId = LoggedInUser.AccountId;
+            //  objUserModel.Password = objUserModel.Password.Encrypt();// Encript Password
             objMessageModel = _User.AddEditUserDetails(objUserModel);
             ExtentionMethods.PutTemp(TempData, "Message", objMessageModel);
 
@@ -115,6 +118,7 @@ namespace AllinOneWebApplication.Controllers
 
         public IActionResult DeleteUser(Int64 UserId = 0, Int64 UserSessionId = 0)
         {
+            UserSessionId = LoggedInUser.UserId;
             Message objMessageModel = new Message();
             objMessageModel = _User.DeleteUserDetails(UserId, UserSessionId);
             ExtentionMethods.PutTemp(TempData, "Message", objMessageModel);

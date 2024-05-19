@@ -1,10 +1,11 @@
-﻿using AllinOneWebApplication.Models;
+﻿using AllinOneWebApplication.Common;
+using AllinOneWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace AllinOneWebApplication.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 

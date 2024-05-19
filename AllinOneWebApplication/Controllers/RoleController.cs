@@ -11,7 +11,7 @@ using NuGet.Protocol.Core.Types;
 
 namespace AllinOneWebApplication.Controllers
 {
-	public class RoleController : Controller
+	public class RoleController : BaseController
 	{
         private readonly IRole _Role;
         public RoleController(IRole Role)
@@ -85,7 +85,7 @@ namespace AllinOneWebApplication.Controllers
         public IActionResult AddEditRole(RoleModel obj)
         {
             string JsonData = "";string ? RoleName = obj.RoleName;
-            Int64 RoleId = 0; Int64 HomePageId = obj.FK_HomePageFormId; Int64 SessionUserId = 1;
+            Int64 RoleId = 0; Int64 HomePageId = obj.FK_HomePageFormId; Int64 SessionUserId = LoggedInUser.UserId;
             ViewBag.Status = new List<string>() { "Active", "InActive" };
             if (!ModelState.IsValid)
             {
@@ -96,6 +96,8 @@ namespace AllinOneWebApplication.Controllers
             }
             Message objMessageModel = new Message();
             obj.IsActive = obj.Status == "Active" ? true : false;
+            obj.SessionUserId = LoggedInUser.UserId;
+            obj.SessionAccountId = LoggedInUser.AccountId;
             objMessageModel = _Role.AddEditRoleDetails(JsonData, RoleName, RoleId, HomePageId, SessionUserId);
             ExtentionMethods.PutTemp(TempData, "Message", objMessageModel);
 
@@ -104,7 +106,7 @@ namespace AllinOneWebApplication.Controllers
         }
          public IActionResult DeleteRole(Int64 RoleId = 0, Int64 UserId = 0)
         {
-
+            UserId= LoggedInUser.UserId;
             Message objMessage = new Message();
             objMessage = _Role.DeleteRoleDetails(RoleId, UserId);
             ExtentionMethods.PutTemp(TempData, "Message", objMessage);

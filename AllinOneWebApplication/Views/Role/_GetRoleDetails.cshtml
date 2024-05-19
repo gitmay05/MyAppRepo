@@ -33,11 +33,8 @@
                                 <td> @Html.DisplayFor(modelItem => item.CreatedBy)</td>
                                 <td> @Html.DisplayFor(modelItem => item.CreatedDate)</td>
                                 <td>
-                                    <a asp-controller="Role" asp-action="AddEditRole" asp-route-Id="@item.PK_RoleId" class="btn btn-sm btn-primary rounded-0"><i class="fa-solid fa-pen"></i></a>
-                                    <a asp-controller="Role" asp-action="DeleteRole" asp-route-RoleId="@item.PK_RoleId" asp-route-SessionUserId="1" class="btn btn-secondary btn-sm"><i class="fa-solid fa-trash-can"></i></a>
-
-                                    @*   <a asp-controller="Form" asp-action="DeleteForm" asp-route-FormId="@item.PK_FormId" asp-route-SessionUserId="@userInfo.UserId" class="btn btn-secondary btn-sm"><i class="fa-solid fa-trash-can"></i></a>
-                            *@
+                                    <a asp-controller="Role" asp-action="AddEditRole" asp-route-Id="@item.PK_RoleId" class="btn btn-sm btn-primary rounded-0">Edit</a>
+                                    <a asp-controller="Role" asp-action="DeleteRole" asp-route-RoleId="@item.PK_RoleId" asp-route-SessionUserId="1" class="btn btn-secondary btn-sm">Delete</a>
                                 </td>
                             </tr>
                         }
@@ -45,7 +42,7 @@
                     else
                     {
 
-                        <tr><td>No Data Found.</td></tr>
+                        <tr colspan="8"><td>No Data Found.</td></tr>
                     }
                 </tbody>
             </table>
