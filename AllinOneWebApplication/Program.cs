@@ -8,12 +8,21 @@ using AllinOneApiApplication.Repository.Form;
 using AllinOneApiApplication.Repository.Login;
 using AllinOneApiApplication.Repository.Role;
 using AllinOneApiApplication.Repository.User;
+using AllinOneWebApplication.Filter;
+using AllinOneWebApplication.MiddleWare;
 
 var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddScoped<IForm, FormRepository>();
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+// Add MVC and configure action filters
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<CustomActionFilter>(); // Add the LoggingActionFilter to MVC
+    options.Filters.Add<GlobalExceptionFilter>(); // Add the GlobalExceptionFilter to MVC
+
+});
+
 builder.Services.AddSingleton<IApplicationUser, UserReposistory>();
 builder.Services.AddSingleton<IForm, FormRepository>();
 builder.Services.AddSingleton<IRole, RoleRepository>();
@@ -39,6 +48,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.UseSession();
+// Use custom authentication middleware before routing middleware
+app.UseAuthenticationMiddleware();
+
+
 
 app.MapControllerRoute(
     name: "default",
